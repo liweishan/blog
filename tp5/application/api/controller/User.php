@@ -127,8 +127,8 @@
      */
     public function getSmsInfo($mobile, $code) {
       header('Content-Type:text/html;charset=utf-8');
-      $apikey = 'ace6a3267b52ac07e5a074f378fa5558'; // 修改为您的apikey(https://www.yunpian.com)登录官网后获取
-      $text = '【李维珊】您的验证码是'.$code.'。如非本人操作请忽略';
+      $apikey = '自己去申请'; // 修改为您的apikey(https://www.yunpian.com)登录官网后获取
+      $text = '【名称】您的验证码是'.$code.'。如非本人操作请忽略';
       $ch = curl_init();
       // print_r($ch);
       /* 设置验证方式 */
