@@ -1,0 +1,81 @@
+﻿域名：liweishan.top
+注意：参数前面有星号的是必填
+栏目接口：
+获取栏目：/getCat
+请求类型：GET
+参数：无
+
+获取栏目：/addCat
+请求类型：POST
+参数： *catname： String
+
+编辑栏目：/editCat
+请求类型：POST
+参数： *catname： String
+
+删除栏目：/deleteCat
+请求类型：POST
+参数： *cat_id： int
+
+文章接口
+获取文章：/getArt
+请求类型：GET
+参数：curPage: 当前页码 int 如果不传就返回全部
+	 pageSize: 每页条数 int 不传默认10条
+	 cat_id: 栏目id
+
+获取文章详情：/getArtDetails
+请求类型：GET
+参数：*art_id: 文章id int
+
+添加文章：/addArt
+请求类型：POST
+参数：*cat_id: 栏目id int
+	  *title: 文章标题 String
+	  *content: 文章内容 String
+
+修改文章：/editArt
+请求类型：POST
+参数：*art_id: 栏目id int
+	  *title: 文章标题 String
+	  *content: 文章内容 String
+
+添加文章：/deleteArt
+请求类型：POST
+参数：*art_id: 文章id int
+
+获取评论：/getComment
+请求类型：GET
+参数：无
+
+添加评论：/addComment
+请求类型：POST
+参数：nick: 昵称
+	 *content: 内容 String
+	 *art_id: 文章id
+
+删除评论：/deleteComment
+请求类型：POST
+参数：*comment_id: 评论id
+
+登录：/login
+请求类型：POST
+参数：*name: 用户名
+         *password: 密码
+
+注册：/register
+请求类型：POST
+参数：*name: 用户名
+         *password: 密码
+         *mobile: 手机号码
+         *code: 验证码
+
+发送验证码：/sms
+请求类型：POST
+参数：*mobile: 手机号码
+
+修改密码：/editPwd
+请求类型：POST
+参数：*mobile: 手机号码
+          *code: 验证码
+          *password: 密码
