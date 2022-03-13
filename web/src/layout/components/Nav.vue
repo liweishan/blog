@@ -314,11 +314,13 @@ export default {
      * 点击的退出登录
      */
     async logout() {
-      const { $store, $router } = this
+      const { $store, $router, $route } = this
       $store.dispatch('user/logout')
       const accessRoutes = await $store.dispatch('permission/generateRoutes', '')
-      // 添加首页等导航栏页面
-      if (accessRoutes.length) $router.addRoutes(accessRoutes)
+      // 添加404页面
+      if (accessRoutes.length) $router.addRoute(accessRoutes.pop())
+      // 该页面需要权限证明是系统管理页，才需要跳转到首页
+      if ($route.meta?.requireAuth) $router.replace({ path: '/' })
     },
     /**
      * 点击展开或者闭合移动端的菜单

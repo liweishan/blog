@@ -226,7 +226,7 @@ export default {
       const i = defaultKeys.findIndex(e => e === key)
       if (i === -1 || $route.path !== key) {
         this.defaultKeys = [key]
-        $router.push({ path: key })
+        $router.replace({ path: key })
       }
     },
     handleOpen() {
@@ -258,10 +258,10 @@ export default {
     async logout() {
       const { $store, $router } = this
       $store.dispatch('user/logout')
-      $router.replace({ path: '/' })
       const accessRoutes = await $store.dispatch('permission/generateRoutes', '')
-      // 添加首页等导航栏页面
-      if (accessRoutes.length) $router.addRoutes(accessRoutes)
+      // 添加404页面
+      if (accessRoutes.length) $router.addRoute(accessRoutes.pop())
+      $router.replace({ path: '/' })
     }
   }
 }

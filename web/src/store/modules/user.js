@@ -6,6 +6,7 @@ import {
   clearStorage
 } from '@/utils/auth'
 import { login } from '@/api/user'
+import { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
@@ -42,6 +43,7 @@ const actions = {
     clearStorage()
     commit('SET_TOKEN', '')
     commit('SET_USERINFO', {})
+    resetRouter()
   }
 }
 

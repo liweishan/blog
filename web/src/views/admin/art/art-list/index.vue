@@ -99,7 +99,8 @@ import {
   Divider,
   Message,
   Modal,
-  Pagination
+  Pagination,
+  Input
 } from 'ant-design-vue'
 import { getArt } from '@/api/blog'
 import { deleteArt } from '@/api/admin'
@@ -107,10 +108,11 @@ import { getFormatTime } from '@/utils/util'
 
 export default {
   components: {
-    ATable: Table,
-    AIcon: Icon,
-    ADivider: Divider,
-    APagination: Pagination
+    [Table.name]: Table,
+    [Icon.name]: Icon,
+    [Divider.name]: Divider,
+    [Pagination.name]: Pagination,
+    [Input.name]: Input
   },
   data() {
     const columns = [

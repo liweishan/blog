@@ -1,5 +1,4 @@
 import { constantRoutes, asyncRoutes } from '@/router/router'
-import { resetRouter } from '@/router'
 import navs, { asyncNavs } from '@/router/nav'
 
 const state = {
@@ -29,7 +28,6 @@ const actions = {
         accessedRoutes = []
         commit('SET_NAVS', navs)
       }
-      resetRouter()
       const route404 = {
         path: '*',
         redirect: '/404',

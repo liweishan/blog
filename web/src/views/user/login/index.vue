@@ -215,7 +215,11 @@ export default {
               clearCookieAll()
             }
             const accessRoutes = await $store.dispatch('permission/generateRoutes', res.name)
-            if (accessRoutes.length) $router.addRoutes(accessRoutes)
+            if (accessRoutes.length) {
+              for (const route of accessRoutes.values()) {
+                $router.addRoute(route)
+              }
+            }
             if (redirect) {
               $router.replace({ path: redirect })
             } else {
