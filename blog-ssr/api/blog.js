@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-export function getArt(opt) {
-  const catId = opt.catId ? `&cat_id=${opt.catId}` : ''
+export function getArt(params) {
   return request({
-    url: `/getArt?curPage=${opt.curPage}&pageSize=${opt.pageSize}${catId}`
+    url: '/getArt',
+    params
   })
 }
 

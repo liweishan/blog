@@ -1,24 +1,27 @@
 <template>
-  <div class="top">
+  <div v-if="isNav" class="top">
     <a-back-top />
     <header class="pc">
       <div class="logo">
-        <img src="@/assets/img/logo2.png" />
+        <img src="~/assets/img/logo2.png">
       </div>
       <nav>
         <a-menu v-model="current" mode="horizontal" @click="handLink">
-          <a-menu-item v-for="v of getNavs" :key="v.path">{{ v.meta.title }}</a-menu-item>
-          <a-menu-item :key="'2'">你大爷</a-menu-item>
+          <a-menu-item v-for="v of navs" :key="v.path">
+            {{ v.title }}
+          </a-menu-item>
         </a-menu>
       </nav>
       <div v-if="!token" class="login-bar">
-        <nuxt-link class="login" to="/login" >登录</nuxt-link>
+        <nuxt-link class="login" to="/login">
+          登录
+        </nuxt-link>
       </div>
       <div v-else class="user">
         <a-dropdown>
           <div class="img">
-            <img v-if="userInfo.logo" :src="userInfo.logo" />
-            <img v-else src="@/assets/img/avatar2.jpg" >
+            <img v-if="userInfo.logo" :src="userInfo.logo">
+            <img v-else src="@/assets/img/avatar2.jpg">
             <span>{{ userInfo.name }}</span>
           </div>
           <a-menu slot="overlay" @click="handleItem">
@@ -37,29 +40,31 @@
     </header>
     <header class="mobile">
       <div v-if="!token" class="login-bar">
-        <router-link class="login" to="/login" >登录</router-link>
+        <router-link to="/login" class="login">
+          登录
+        </router-link>
       </div>
       <div v-else class="user" @click="logout">
-          <img v-if="userInfo.logo" :src="userInfo.logo" />
-          <img v-else src="@/assets/img/avatar2.jpg" >
+        <img v-if="userInfo.logo" :src="userInfo.logo">
+        <img v-else src="@/assets/img/avatar2.jpg">
       </div>
       <div class="logo">
-        <img src="@/assets/img/logo2.png" />
+        <img src="@/assets/img/logo2.png">
       </div>
       <div class="menu-icon" @click="handOpen">
         <a-icon v-show="!showMenu" type="menu-fold" />
         <a-icon v-show="showMenu" type="menu-unfold" />
       </div>
       <transition name="bounce" @after-enter="isLock = true" @after-leave="isLock = true">
-        <div class="menu" v-show="showMenu">
+        <div v-show="showMenu" class="menu">
           <ul>
             <li
-              v-for="(v, i) of getNavs"
+              v-for="(v, i) of navs"
               :key="i"
               :class="{active: current[0] === v.path}"
               @click="handLink(v, i)"
             >
-              {{ v.meta.title }}
+              {{ v.title }}
             </li>
           </ul>
         </div>
@@ -67,6 +72,114 @@
     </header>
   </div>
 </template>
+
+<script>
+import {
+  Menu,
+  Dropdown,
+  Icon,
+  BackTop
+} from 'ant-design-vue'
+import { mapGetters } from 'vuex'
+import { getNavs } from '~/data/app'
+
+const { Item, Divider } = Menu
+
+export default {
+  components: {
+    AMenu: Menu,
+    AMenuItem: Item,
+    AMenuDivider: Divider,
+    ADropdown: Dropdown,
+    AIcon: Icon,
+    ABackTop: BackTop
+  },
+  data() {
+    return {
+      navs: getNavs(),
+      isNav: false,
+      current: [],
+      showMenu: false,
+      isLock: true
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'token',
+      'userInfo'
+    ])
+  },
+  watch: {
+    $route() {
+      this.changeRouter()
+    }
+  },
+  created() {
+    this.changeRouter()
+  },
+  methods: {
+    handLink(item, i) {
+      const { $router, $route } = this
+      const empty = typeof i === 'undefined'
+      const path = empty ? item.key : item.path
+      if ($route.path === path) {
+        return
+      }
+      if (!empty) {
+        this.current = [path]
+      }
+      this.showMenu = false
+      this.isLock = true
+      $router.replace(path)
+    },
+    changeRouter() {
+      const { $route, navs } = this
+      const { path, meta } = $route
+      this.current = [meta.parentPath || path]
+      // 根据当前路由获取对应的nav数据，isNav是否需要显示导航栏
+      const curNav = navs.find(nav => nav.path === path)
+      if (curNav) {
+        this.isNav = curNav.meta.isNav
+      }
+    },
+    /**
+     * 点击用户的下拉菜单的item
+     */
+    handleItem(opt) {
+      const { $router } = this
+      const { key } = opt
+      switch (+key) {
+        case 1:
+          $router.push({ path: '/revisePassword' })
+          break
+        default:
+          this.logout()
+      }
+    },
+    /**
+     * 点击的退出登录
+     */
+    async logout() {
+      const { $store, $router, $route } = this
+      $store.dispatch('user/logout')
+      const accessRoutes = await $store.dispatch('permission/generateRoutes', '')
+      // 添加404页面
+      if (accessRoutes.length) $router.addRoute(accessRoutes.pop())
+      // 该页面需要权限证明是系统管理页，才需要跳转到首页
+      if ($route.meta?.requireAuth) $router.replace({ path: '/' })
+    },
+    /**
+     * 点击展开或者闭合移动端的菜单
+     */
+    handOpen() {
+      const { showMenu, isLock } = this
+      if (!isLock) return
+      this.showMenu = !showMenu
+      this.isLock = false
+    }
+  }
+}
+</script>
 
 <style lang="less" scoped>
 @import '~assets/style/your-theme-file.less';
@@ -226,112 +339,3 @@
   }
 }
 </style>
-
-<script>
-import {
-  Menu,
-  Dropdown,
-  Icon,
-  BackTop
-} from 'ant-design-vue'
-import { mapGetters } from 'vuex'
-
-const { Item, Divider } = Menu
-
-export default {
-  components: {
-    AMenu: Menu,
-    AMenuItem: Item,
-    AMenuDivider: Divider,
-    ADropdown: Dropdown,
-    AIcon: Icon,
-    ABackTop: BackTop
-  },
-  computed: {
-    ...mapGetters([
-      'navs',
-      'token',
-      'userInfo'
-    ]),
-    getNavs() {
-      const { navs } = this
-      return navs.filter(e => !e.meta.parentPath)
-    }
-  },
-  data() {
-    return {
-      current: [],
-      showMenu: false,
-      isLock: true
-    }
-  },
-  watch: {
-    $route() {
-      this.changeRouter()
-    }
-  },
-  created() {
-    // const { navs } = this
-    // this.current = [navs[0].path]
-  },
-  mounted() {
-    this.changeRouter()
-  },
-  methods: {
-    handLink(item, i) {
-      const { $router, $route } = this
-      const empty = typeof i === 'undefined'
-      const path = empty ? item.key : item.path
-      if ($route.path === path) {
-        return
-      }
-      if (!empty) {
-        this.current = [path]
-      }
-      this.showMenu = false
-      this.isLock = true
-      $router.replace(path)
-    },
-    changeRouter() {
-      const { $route } = this
-      const { path, meta } = $route
-      this.current = [meta.parentPath || path]
-    },
-    /**
-     * 点击用户的下拉菜单的item
-     */
-    handleItem(opt) {
-      const { $router } = this
-      const { key } = opt
-      switch (+key) {
-        case 1:
-          $router.push({ path: '/revisePassword' })
-          break
-        default:
-          this.logout()
-      }
-    },
-    /**
-     * 点击的退出登录
-     */
-    async logout() {
-      const { $store, $router, $route } = this
-      $store.dispatch('user/logout')
-      const accessRoutes = await $store.dispatch('permission/generateRoutes', '')
-      // 添加404页面
-      if (accessRoutes.length) $router.addRoute(accessRoutes.pop())
-      // 该页面需要权限证明是系统管理页，才需要跳转到首页
-      if ($route.meta?.requireAuth) $router.replace({ path: '/' })
-    },
-    /**
-     * 点击展开或者闭合移动端的菜单
-     */
-    handOpen() {
-      const { showMenu, isLock } = this
-      if (!isLock) return
-      this.showMenu = !showMenu
-      this.isLock = false
-    }
-  }
-}
-</script>

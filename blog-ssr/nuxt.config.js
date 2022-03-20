@@ -1,3 +1,5 @@
+import env from './data/env'
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -15,10 +17,13 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-
+  env: {
+    NUXT_ENV: env[process.env.MODE]
+  },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    'ant-design-vue/dist/antd.less'
+    'ant-design-vue/dist/antd.less',
+    '~assets/style/base.less'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -51,8 +56,15 @@ export default {
     }
   },
   router: {
-    middleware: 'route'  // 即每次路由跳转会调用该中间件
+    // middleware: 'route'  // 即每次路由跳转会调用该中间件
    //多个中间件写法
-   // middleware: ['route']
+   middleware: ['route', 'cookie'],
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'custom',
+        path: '*',
+        component: resolve(__dirname, 'pages/error/404.vue')
+      })
+    }
   }
 }

@@ -15,9 +15,6 @@ export default {
   components: {
     Foot,
     Nav
-  },
-  fetch ({ req }) {
-    console.log(req.headers.cookie, 111111111)
   }
 }
 </script>
