@@ -4,7 +4,6 @@ import axios from 'axios'
 let lock = true
 const axiosSource = axios.CancelToken.source()
 // create an axios instance
-console.log(process.env.NUXT_ENV)
 const service = axios.create({
   // baseURL: process.env.VUE_APP_BASEURL, // url = base url + request url
   baseURL: process.env.NUXT_ENV.baseURL, // url = base url + request url
