@@ -7,7 +7,7 @@
       </div>
       <nav>
         <a-menu v-model="current" mode="horizontal" @click="handLink">
-          <a-menu-item v-for="v of navs" :key="v.path">
+          <a-menu-item v-for="v of getNavs" :key="v.path">
             {{ v.title }}
           </a-menu-item>
         </a-menu>
@@ -59,7 +59,7 @@
         <div v-show="showMenu" class="menu">
           <ul>
             <li
-              v-for="(v, i) of navs"
+              v-for="(v, i) of getNavs"
               :key="i"
               :class="{active: current[0] === v.path}"
               @click="handLink(v, i)"
@@ -107,7 +107,10 @@ export default {
     ...mapGetters([
       'token',
       'userInfo'
-    ])
+    ]),
+    getNavs() {
+      return this.navs.filter(nav => !nav.meta.parentPath)
+    }
   },
   watch: {
     $route() {
@@ -134,12 +137,21 @@ export default {
     },
     changeRouter() {
       const { $route, navs } = this
-      const { path, meta } = $route
-      this.current = [meta.parentPath || path]
+      const { path } = $route
       // 根据当前路由获取对应的nav数据，isNav是否需要显示导航栏
-      const curNav = navs.find(nav => nav.path === path)
+      const curNav = navs.find(nav => {
+        // 如果有规则就用规则校验
+        if (nav.rule) {
+          return nav.rule.test(path)
+        } else {
+          return nav.path === path
+        }
+      })
       if (curNav) {
         this.isNav = curNav.meta.isNav
+        this.current = [curNav.meta.parentPath || path]
+      } else {
+        this.current = [path]
       }
     },
     /**

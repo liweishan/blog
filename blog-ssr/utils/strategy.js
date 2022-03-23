@@ -2,7 +2,6 @@ import * as validates from './validateForm'
 
 /**
  * 生成表单自定义校验函数
- * @param {String} key 方法名
  * @param {String} msg 提示文字
  */
 export const formValidateGene = (key, msg, required) => (rule, val, cb) => {

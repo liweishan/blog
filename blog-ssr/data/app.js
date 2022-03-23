@@ -31,6 +31,20 @@ export function getNavs() {
       }
     },
     {
+      path: 'app/article/:id',
+      rule: /app\/article\/\d{1,}/,
+      title: '文章详情',
+      meta: {
+        title: '文章详情',
+        requireAuth: false,
+        isNav: true,
+        isHome: false,
+        isBg: true,
+        parentPath: '/app/article',
+        roles: ''
+      }
+    },
+    {
       path: '/app/about',
       title: '关于',
       meta: {

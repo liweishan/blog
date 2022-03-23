@@ -19,7 +19,7 @@ export function setCookieAll(opt, exdays) {
  * @param {String} val cookie的val
  * @param {Number} exdays 过期时间
  */
-export function setCookie(key, val, exdays = 0) {
+export function setCookie(key, val, exdays) {
   const exdate = new Date()
   exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays) // 保存的天数
   document.cookie = `${key}=${val};path=/;expires=${exdate.toUTCString()}` // 字符串拼接cookie

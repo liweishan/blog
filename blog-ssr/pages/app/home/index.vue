@@ -67,7 +67,7 @@ export default {
   methods: {
     handBtn() {
       const { $router } = this
-      $router.push('/article')
+      $router.replace('/app/article')
     }
   }
 }

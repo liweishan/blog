@@ -6,7 +6,7 @@ export function userName(name) {
   if (!name) {
     return false
   }
-  const rule = /^[\u4e00-\u9fa5|a-zA-Z]{3,10}$/
+  const rule = /^[\u4E00-\u9FA5|a-zA-Z]{3,10}$/
   return rule.test(name)
 }
 
@@ -45,7 +45,7 @@ export function code(num) {
  * @param {String} name 必须是汉字或者字母，长度为2-50
  */
 export function catname(name) {
-  const rule = /^[\u4e00-\u9fa5|a-zA-Z|\d]{2,50}$/
+  const rule = /^[\u4E00-\u9FA5|a-zA-Z|\d]{2,50}$/
   return rule.test(name)
 }
 

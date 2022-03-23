@@ -7,9 +7,9 @@ export function getArt(params) {
   })
 }
 
-export function getArtDetails(opt) {
+export function getArtDetails(artId) {
   return request({
-    url: `/getArtDetails?art_id=${opt.artId}`
+    url: `/getArtDetails?art_id=${artId}`
   })
 }
 
@@ -19,9 +19,9 @@ export function getCat() {
   })
 }
 
-export function getComment(opt) {
+export function getComment(artId) {
   return request({
-    url: `/getComment?art_id=${opt.artId}`
+    url: `/getComment?art_id=${artId}`
   })
 }
 

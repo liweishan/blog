@@ -14,7 +14,8 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/blog/favicon.ico' },
+      { rel: 'stylesheet', href: '//at.alicdn.com/t/font_1729647_b7q9lmf0sqn.css' }
     ]
   },
   env: {
@@ -22,13 +23,13 @@ export default {
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    'ant-design-vue/dist/antd.less',
+    // 'ant-design-vue/dist/antd.less',
     '~assets/style/base.less'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/antd-ui'
+    // '@/plugins/antd-ui'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -37,7 +38,7 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
+    '@nuxtjs/eslint-module'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -46,6 +47,20 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    analyze: true,
+    transpile: [/ant-design-vue/],
+    babel: {
+      plugins: [
+        [
+          'import',
+          {
+            libraryName: 'ant-design-vue',
+            libraryDirectory: 'es',
+            style: true
+          }
+        ]
+      ]
+    },
     loaders: {
       less: {
         modifyVars: {
@@ -57,8 +72,8 @@ export default {
   },
   router: {
     // middleware: 'route'  // 即每次路由跳转会调用该中间件
-   //多个中间件写法
-   middleware: ['route', 'cookie'],
+    base: '/blog',
+    middleware: ['route', 'cookie'], // 多个中间件写法
     extendRoutes(routes, resolve) {
       routes.push({
         name: 'custom',
