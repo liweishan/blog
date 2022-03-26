@@ -1,4 +1,5 @@
-import request from '@/utils/request'
+import { service as request } from '~/plugins/axios'
+// import request from '~/utils/request'
 
 export function getArt(params) {
   return request({

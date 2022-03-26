@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import { service as request } from '~/plugins/axios'
 
 export function login(data) {
   return request({

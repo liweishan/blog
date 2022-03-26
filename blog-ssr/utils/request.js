@@ -1,6 +1,6 @@
 import axios from 'axios'
-// import { Message } from 'ant-design-vue'
-// import store from '@/store'
+import { message } from 'ant-design-vue'
+
 let lock = true
 const axiosSource = axios.CancelToken.source()
 // create an axios instance
@@ -51,7 +51,7 @@ service.interceptors.response.use(
     const res = response.data
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 200) {
-      // Message.error(res.message || 'error')
+      process.client && message.error(res.message || 'error')
       return Promise.reject(res.message || 'error')
     }
     return res
@@ -61,11 +61,11 @@ service.interceptors.response.use(
     const data = error.response && error.response.data
     if (data) {
       // const message = data.error && data.error.message // error一般是网络问题
-      // Message({
-      //   content: message || 'error',
-      //   top: '100px',
-      //   duration: 3
-      // })
+      process.client && message({
+        content: message || 'error',
+        top: '100px',
+        duration: 3
+      })
     }
     return Promise.reject(data)
   }

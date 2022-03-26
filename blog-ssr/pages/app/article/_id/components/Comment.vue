@@ -108,9 +108,9 @@ export default {
         return
       }
       const { $route, comment, userInfo } = this
-      const { artId } = $route.query
+      const { id } = $route.params
       const data = {
-        art_id: artId,
+        art_id: id,
         content: comment,
         nick: userInfo.name
       }
@@ -154,15 +154,15 @@ export default {
         return
       }
       const {
-        list,
+        commentList,
         userInfo,
         $route,
         curNode
       } = this
-      const { artId } = $route.query
-      const v = list[i]
+      const { id } = $route.params
+      const v = commentList[i]
       const data = {
-        art_id: artId,
+        art_id: id,
         nick: userInfo.name,
         parent_id: v.comment_id,
         content: v.comment,

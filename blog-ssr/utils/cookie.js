@@ -1,4 +1,8 @@
-/** 跟cookie有关的方法 */
+/**
+ * 跟cookie有关的方法
+ * 浏览器携带cookie中文会乱码，存的时候用encodeURI编码，取的时候用decodeURI解码
+ */
+import { encode, decode } from 'js-base64'
 
 /**
  * 设置多个cookie
@@ -9,7 +13,7 @@ export function setCookieAll(opt, exdays) {
   const exdate = new Date()
   exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays) // 保存的天数
   for (const [k, v] of Object.entries(opt)) {
-    document.cookie = `${k}=${v};path=/;expires=${exdate.toUTCString()}` // 字符串拼接cookie
+    document.cookie = `${k}=${encode(v)};path=/;expires=${exdate.toUTCString()}` // 字符串拼接cookie
   }
 }
 
@@ -22,7 +26,7 @@ export function setCookieAll(opt, exdays) {
 export function setCookie(key, val, exdays) {
   const exdate = new Date()
   exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays) // 保存的天数
-  document.cookie = `${key}=${val};path=/;expires=${exdate.toUTCString()}` // 字符串拼接cookie
+  document.cookie = `${key}=${encode(val)};path=/;expires=${exdate.toUTCString()}` // 字符串拼接cookie
 }
 
 /**
@@ -30,14 +34,15 @@ export function setCookie(key, val, exdays) {
  * @param {String} key cookie的key
  * @return {*} 如果有值就返回字符串，否则false
  */
-export function getCookie(key) {
-  const cookies = process.server ? '' : document.cookie
-  if (cookies.includes(key)) {
-    const arr = cookies.split('; ')
+export function getCookie(key, cookie) {
+  // 服务端没有document
+  cookie = cookie || (process.server ? '' : document.cookie)
+  if (cookie.includes(key)) {
+    const arr = cookie.split('; ')
     const str = arr.find(elem => elem.includes(`${key}=`))
     if (str) {
       const val = str.split('=')[1]
-      return val
+      return decode(val)
     }
   }
   return false
@@ -47,18 +52,19 @@ export function getCookie(key) {
  * 获取所有的cookie
  * @return {*} cookie有的时候返回一个对应key与val的json数据，反之则空json
  */
-export function getCookieAll() {
-  const cookies = document.cookie
-  const obj = {}
-  if (cookies) {
-    const arr = cookies.split('; ')
+export function getCookieAll(cookie) {
+  // 服务端没有document
+  cookie = cookie || (process.server ? '' : document.cookie)
+  const cookies = {}
+  if (cookie) {
+    const arr = cookie.split('; ')
     for (const v of arr.values()) {
       const kv = v.split('=')
       const [k, val] = kv
-      obj[k] = val
+      cookies[k] = decode(val)
     }
   }
-  return obj
+  return cookies
 }
 
 /**
@@ -71,11 +77,12 @@ export function clearCookie(key) {
 
 /**
  * 清除所有的cookie
+ * @param {Array} keys 根据key清除多个cookie
  */
-export function clearCookieAll() {
-  const cookies = document.cookie
-  if (cookies) {
-    const arr = cookies.split('; ')
+export function clearCookieAll(keys) {
+  const cookie = document.cookie
+  if (cookie) {
+    const arr = keys || cookie.split('; ')
     for (const v of arr.values()) {
       const kv = v.split('=')
       clearCookie(kv[0])

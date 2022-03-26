@@ -1,4 +1,4 @@
-import { setCookie, getCookie, clearCookieAll } from './cookie'
+import { setCookie, getCookie, clearCookie } from './cookie'
 
 export function getToken() {
   return getCookie('token') || ''
@@ -21,5 +21,6 @@ export function setUser(userInfo) {
 }
 
 export function clearStorage() {
-  clearCookieAll()
+  clearCookie('user')
+  clearCookie('token')
 }

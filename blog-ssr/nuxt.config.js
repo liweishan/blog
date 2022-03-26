@@ -30,6 +30,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     // '@/plugins/antd-ui'
+    { src: '@/plugins/axios.js' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -73,13 +74,15 @@ export default {
   router: {
     // middleware: 'route'  // 即每次路由跳转会调用该中间件
     base: '/blog',
-    middleware: ['route', 'cookie'], // 多个中间件写法
+    middleware: ['cookie', 'route'], // 多个中间件写法，并且哪个文件名在前就优先执行
     extendRoutes(routes, resolve) {
-      routes.push({
-        name: 'custom',
-        path: '*',
-        component: resolve(__dirname, 'pages/error/404.vue')
-      })
+      routes.push(
+        {
+          name: 'custom',
+          path: '*',
+          component: resolve(__dirname, 'pages/error/404.vue')
+        }
+      )
     }
   }
 }

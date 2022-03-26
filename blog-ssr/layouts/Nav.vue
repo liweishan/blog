@@ -1,6 +1,5 @@
 <template>
   <div v-if="isNav" class="top">
-    <a-back-top />
     <header class="pc">
       <div class="logo">
         <img src="~/assets/img/logo2.png">
@@ -13,7 +12,7 @@
         </a-menu>
       </nav>
       <div v-if="!token" class="login-bar">
-        <nuxt-link class="login" to="/login">
+        <nuxt-link class="login" to="/user/login">
           登录
         </nuxt-link>
       </div>
@@ -40,7 +39,7 @@
     </header>
     <header class="mobile">
       <div v-if="!token" class="login-bar">
-        <router-link to="/login" class="login">
+        <router-link to="/user/login" class="login">
           登录
         </router-link>
       </div>
@@ -77,8 +76,7 @@
 import {
   Menu,
   Dropdown,
-  Icon,
-  BackTop
+  Icon
 } from 'ant-design-vue'
 import { mapGetters } from 'vuex'
 import { getNavs } from '~/data/app'
@@ -91,13 +89,12 @@ export default {
     AMenuItem: Item,
     AMenuDivider: Divider,
     ADropdown: Dropdown,
-    AIcon: Icon,
-    ABackTop: BackTop
+    AIcon: Icon
   },
   data() {
     return {
       navs: getNavs(),
-      isNav: false,
+      isNav: true,
       current: [],
       showMenu: false,
       isLock: true
@@ -171,14 +168,9 @@ export default {
     /**
      * 点击的退出登录
      */
-    async logout() {
-      const { $store, $router, $route } = this
+    logout() {
+      const { $store } = this
       $store.dispatch('user/logout')
-      const accessRoutes = await $store.dispatch('permission/generateRoutes', '')
-      // 添加404页面
-      if (accessRoutes.length) $router.addRoute(accessRoutes.pop())
-      // 该页面需要权限证明是系统管理页，才需要跳转到首页
-      if ($route.meta?.requireAuth) $router.replace({ path: '/' })
     },
     /**
      * 点击展开或者闭合移动端的菜单

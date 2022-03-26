@@ -12,33 +12,34 @@
       </div>
     </div>
     <div class="main">
-      <a-form ref="formLogin" :form="form" @submit.prevent="handleSubmit">
-        <a-form-item>
-          <a-input v-decorator="rules.userName" size="large" placeholder="请输入用户名或手机号" />
-        </a-form-item>
-        <a-form-item>
+      <a-form-model ref="formLogin" :model="form" :rules="rules" @submit.prevent="handleSubmit('formLogin')">
+        <a-form-model-item>
+          <a-input v-model="form.userName" autocomplete="off" allow-clear size="large" placeholder="请输入用户名或手机号" />
+        </a-form-model-item>
+        <a-form-model-item>
           <a-input
-            v-decorator="rules.userPsd"
+            v-model="form.userPsd"
             size="large"
             :type="toggle ? 'text' : 'password'"
             placeholder="请输入密码"
+            autocomplete="off"
           >
             <a-icon v-show="!toggle" slot="suffix" type="eye-invisible" @click="toggle = true" />
             <a-icon v-show="toggle" slot="suffix" type="eye" @click="toggle = false" />
           </a-input>
-        </a-form-item>
-        <a-form-item>
+        </a-form-model-item>
+        <a-form-model-item>
+          <!-- :checked="rememberPsd" -->
           <a-checkbox
-            v-decorator="['rememberPsd']"
-            :checked="rememberPsd"
+            v-model="form.rememberPsd"
             @change="handChange"
           >
             记住密码
           </a-checkbox>
           <a href="javascript:;" @click="hanldeEditPsd">忘记密码</a>
           <a href="javascript:;" @click="hanldeRegister">注册</a>
-        </a-form-item>
-        <a-form-item>
+        </a-form-model-item>
+        <a-form-model-item>
           <a-button
             size="large"
             block
@@ -48,8 +49,8 @@
           >
             Submit
           </a-button>
-        </a-form-item>
-      </a-form>
+        </a-form-model-item>
+      </a-form-model>
     </div>
     <div class="foot" />
   </div>
@@ -57,7 +58,7 @@
 
 <script>
 import {
-  Form,
+  FormModel,
   Button,
   Input,
   Icon,
@@ -65,21 +66,21 @@ import {
   message
 } from 'ant-design-vue'
 import getRules from '~/utils/strategy'
-import { clearCookieAll, setCookieAll, getCookieAll } from '@/utils/cookie'
+// import { clearCookieAll, setCookieAll, getCookieAll } from '@/utils/cookie'
+import { getCookieAll } from '@/utils/cookie'
 
-const { Item } = Form
+const { Item } = FormModel
 
 export default {
   components: {
-    AForm: Form,
-    AButton: Button,
-    AInput: Input,
-    AIcon: Icon,
-    AFormItem: Item,
-    ACheckbox: Checkbox
+    [FormModel.name]: FormModel,
+    [Button.name]: Button,
+    [Input.name]: Input,
+    [Icon.name]: Icon,
+    [Item.name]: Item,
+    [Checkbox.name]: Checkbox
   },
   data() {
-    const { $form } = this
     const rules = getRules({
       userName: [
         {
@@ -104,7 +105,7 @@ export default {
     })
 
     return {
-      form: $form.createForm(this),
+      form: {},
       rules,
       rememberPsd: false,
       isLoding: false,
@@ -119,12 +120,13 @@ export default {
      * 初始化form表单
      */
     init() {
-      const { rules } = this
       const { userName, userPsd } = getCookieAll()
       if (userName && userPsd) {
-        rules.userName[1].initialValue = userName
-        rules.userPsd[1].initialValue = userPsd
-        this.rememberPsd = true
+        this.form = {
+          userName,
+          userPsd,
+          rememberPsd: true
+        }
       }
     },
     /**
@@ -137,37 +139,27 @@ export default {
     /**
      * 点击提交按钮
      */
-    handleSubmit() {
+    handleSubmit(ref) {
       const {
-        form: { validateFields },
-        rememberPsd,
+        form,
         $store,
         $router,
+        $refs,
         $route
       } = this
 
       const { query: { redirect } } = $route
 
       this.isLoding = true
-      const validateFieldsKey = ['userName', 'userPsd']
-      const opt = {
-        force: true,
-        firstFields: true
-      }
-      validateFields(validateFieldsKey, opt, async (validate, values) => {
-        if (!validate) {
+      $refs[ref].validate(async (validate) => {
+        if (validate) {
           try {
-            await $store.dispatch('user/login', values)
+            await $store.dispatch('user/login', { ...form })
             message.success('用户登录成功！')
-            if (rememberPsd) {
-              setCookieAll(values, 7)
-            } else {
-              clearCookieAll()
-            }
             if (redirect) {
               $router.replace({ path: redirect })
             } else {
-              $router.go(-1)
+              $router.replace({ path: '/app/home' })
             }
           } catch (err) {
             // console.log(err)
@@ -194,7 +186,7 @@ export default {
     hanldeRegister() {
       const { $router } = this
       const opt = {
-        path: '/register'
+        path: '/user/register'
       }
       $router.replace(opt)
     },
@@ -204,7 +196,7 @@ export default {
     hanldeEditPsd() {
       const { $router } = this
       const opt = {
-        path: '/retrievePassword'
+        path: '/user/retrieve-password'
       }
       $router.replace(opt)
     }
