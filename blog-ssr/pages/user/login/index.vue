@@ -72,6 +72,7 @@ import { getCookieAll } from '@/utils/cookie'
 const { Item } = FormModel
 
 export default {
+  name: 'Login',
   components: {
     [FormModel.name]: FormModel,
     [Button.name]: Button,
@@ -157,7 +158,7 @@ export default {
             await $store.dispatch('user/login', { ...form })
             message.success('用户登录成功！')
             if (redirect) {
-              $router.replace({ path: redirect })
+              $router.replace({ path: encodeURIComponent(redirect) })
             } else {
               $router.replace({ path: '/app/home' })
             }

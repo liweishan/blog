@@ -12,9 +12,9 @@
         </a-menu>
       </nav>
       <div v-if="!token" class="login-bar">
-        <nuxt-link class="login" to="/user/login">
+        <a href="javascript:;" class="login" @click="handleLogin">
           登录
-        </nuxt-link>
+        </a>
       </div>
       <div v-else class="user">
         <a-dropdown>
@@ -39,9 +39,9 @@
     </header>
     <header class="mobile">
       <div v-if="!token" class="login-bar">
-        <router-link to="/user/login" class="login">
+        <a href="javascript:;" class="login" @click="handleLogin">
           登录
-        </router-link>
+        </a>
       </div>
       <div v-else class="user" @click="logout">
         <img v-if="userInfo.logo" :src="userInfo.logo">
@@ -131,6 +131,19 @@ export default {
       this.showMenu = false
       this.isLock = true
       $router.replace(path)
+    },
+    /**
+     * 点击登陆
+     */
+    handleLogin() {
+      const { $route, $router } = this
+      const to = {
+        path: '/user/login',
+        query: {
+          redirect: decodeURIComponent($route.path)
+        }
+      }
+      $router.push(to)
     },
     changeRouter() {
       const { $route, navs } = this
