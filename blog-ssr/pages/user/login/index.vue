@@ -157,7 +157,7 @@ export default {
             await $store.dispatch('user/login', { ...form })
             message.success('用户登录成功！')
             if (redirect) {
-              $router.replace({ path: redirect })
+              $router.replace({ path: decodeURIComponent(redirect) })
             } else {
               $router.replace({ path: '/app/home' })
             }
