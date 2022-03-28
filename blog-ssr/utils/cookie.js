@@ -42,7 +42,11 @@ export function getCookie(key, cookie) {
     const str = arr.find(elem => elem.includes(`${key}=`))
     if (str) {
       const val = str.split('=')[1]
-      return decode(val)
+      try {
+        return decode(val)
+      } catch (err) {
+        return val
+      }
     }
   }
   return false
@@ -61,7 +65,11 @@ export function getCookieAll(cookie) {
     for (const v of arr.values()) {
       const kv = v.split('=')
       const [k, val] = kv
-      cookies[k] = decode(val)
+      try {
+        cookies[k] = decode(val)
+      } catch (err) {
+        cookies[k] = val
+      }
     }
   }
   return cookies

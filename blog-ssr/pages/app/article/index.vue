@@ -39,7 +39,7 @@
               <div class="foot">
                 <div class="tags fl">
                   <a-icon type="tags" />
-                  <span class="tag">{{ v.catname }}</span>
+                  <span class="tag">{{ catNames[v.cat_id] }}</span>
                 </div>
                 <div class="fr">
                   <span class="read fl">
@@ -164,9 +164,14 @@ async function requestCatList() {
       cat_id: '',
       catname: '全部文章'
     }
+    const catNames = catList.reduce((catNames, cat) => {
+      catNames[cat.cat_id] = cat.catname
+      return catNames
+    }, {})
     catList.unshift(obj)
     return {
-      catList
+      catList,
+      catNames
     }
   } catch (err) {
     return {}
@@ -212,6 +217,7 @@ export default {
       paging,
       isRequest: false,
       catList: [],
+      catNames: {},
       curIndex: 0,
       oldIndex: 0,
       isHandState: true,
