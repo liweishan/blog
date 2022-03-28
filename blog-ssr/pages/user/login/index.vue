@@ -72,6 +72,7 @@ import { getCookieAll } from '@/utils/cookie'
 const { Item } = FormModel
 
 export default {
+  name: 'Login',
   components: {
     [FormModel.name]: FormModel,
     [Button.name]: Button,

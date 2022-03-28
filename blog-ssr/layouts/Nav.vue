@@ -132,6 +132,19 @@ export default {
       this.isLock = true
       $router.replace(path)
     },
+    /**
+     * 点击登陆
+     */
+    handleLogin() {
+      const { $route, $router } = this
+      const to = {
+        path: '/user/login',
+        query: {
+          redirect: decodeURIComponent($route.path)
+        }
+      }
+      $router.push(to)
+    },
     changeRouter() {
       const { $route, navs } = this
       const { path } = $route
@@ -164,19 +177,6 @@ export default {
         default:
           this.logout()
       }
-    },
-    /**
-     * 点击登录
-     */
-    handleLogin() {
-      const { $route, $router } = this
-      const to = {
-        path: '/user/login',
-        query: {
-          redirect: encodeURIComponent($route.path)
-        }
-      }
-      $router.push(to)
     },
     /**
      * 点击的退出登录
