@@ -1,0 +1,111 @@
+[
+  {
+    "name": "app",
+    "path": "/app",
+    "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\app.vue",
+    "chunkName": "pages/app",
+    "children": [
+      {
+        "name": "app-about",
+        "path": "about",
+        "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\app\\\\about\\\\index.vue",
+        "chunkName": "pages/app/about/index"
+      },
+      {
+        "name": "app-article",
+        "path": "article",
+        "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\app\\\\article\\\\index.vue",
+        "chunkName": "pages/app/article/index"
+      },
+      {
+        "name": "app-home",
+        "path": "home",
+        "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\app\\\\home\\\\index.vue",
+        "chunkName": "pages/app/home/index"
+      },
+      {
+        "name": "app-home-components",
+        "path": "home/components",
+        "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\app\\\\home\\\\components\\\\index.js",
+        "chunkName": "pages/app/home/components/index"
+      },
+      {
+        "name": "app-about-components-canvas",
+        "path": "about/components/canvas",
+        "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\app\\\\about\\\\components\\\\canvas.vue",
+        "chunkName": "pages/app/about/components/canvas"
+      },
+      {
+        "name": "app-home-components-About",
+        "path": "home/components/About",
+        "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\app\\\\home\\\\components\\\\About.vue",
+        "chunkName": "pages/app/home/components/About"
+      },
+      {
+        "name": "app-home-components-Navig",
+        "path": "home/components/Navig",
+        "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\app\\\\home\\\\components\\\\Navig.vue",
+        "chunkName": "pages/app/home/components/Navig"
+      },
+      {
+        "name": "app-home-components-NewArt",
+        "path": "home/components/NewArt",
+        "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\app\\\\home\\\\components\\\\NewArt.vue",
+        "chunkName": "pages/app/home/components/NewArt"
+      },
+      {
+        "name": "app-article-id",
+        "path": "article/:id",
+        "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\app\\\\article\\\\_id\\\\index.vue",
+        "chunkName": "pages/app/article/_id/index"
+      },
+      {
+        "name": "app-article-id-components",
+        "path": "article/:id/components",
+        "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\app\\\\article\\\\_id\\\\components\\\\index.js",
+        "chunkName": "pages/app/article/_id/components/index"
+      },
+      {
+        "name": "app-article-id-components-Comment",
+        "path": "article/:id/components/Comment",
+        "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\app\\\\article\\\\_id\\\\components\\\\Comment.vue",
+        "chunkName": "pages/app/article/_id/components/Comment"
+      },
+      {
+        "name": "app-article-id-components-NextPrve",
+        "path": "article/:id/components/NextPrve",
+        "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\app\\\\article\\\\_id\\\\components\\\\NextPrve.vue",
+        "chunkName": "pages/app/article/_id/components/NextPrve"
+      }
+    ]
+  },
+  {
+    "name": "error-404",
+    "path": "/error/404",
+    "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\error\\\\404.vue",
+    "chunkName": "pages/error/404"
+  },
+  {
+    "name": "user-login",
+    "path": "/user/login",
+    "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\user\\\\login\\\\index.vue",
+    "chunkName": "pages/user/login/index"
+  },
+  {
+    "name": "user-register",
+    "path": "/user/register",
+    "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\user\\\\register\\\\index.vue",
+    "chunkName": "pages/user/register/index"
+  },
+  {
+    "name": "user-retrieve-password",
+    "path": "/user/retrieve-password",
+    "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\user\\\\retrieve-password\\\\index.vue",
+    "chunkName": "pages/user/retrieve-password/index"
+  },
+  {
+    "name": "custom",
+    "path": "*",
+    "component": "D:\\\\git\\\\blog\\\\blog-ssr\\\\pages\\\\error\\\\404.vue"
+  }
+]

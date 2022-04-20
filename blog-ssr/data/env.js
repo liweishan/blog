@@ -1,8 +1,8 @@
 export default {
-  dev: {
+  development: {
     baseURL: 'http://tp5.com'
   },
-  prod: {
+  production: {
     baseURL: 'https://www.liweishan.top'
   }
 }

@@ -1,4 +1,4 @@
-export default function ({ isHMR, route, redirect, store }) {
+export default function ({ isHMR, route, redirect }) {
   if (isHMR) return
   // cookie.js中间件先执行，如果有token这里是可以拿到的
   if (['/', '/app', '/app/'].includes(route.fullPath)) {

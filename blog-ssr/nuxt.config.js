@@ -19,7 +19,7 @@ export default {
     ]
   },
   env: {
-    NUXT_ENV: env[process.env.MODE]
+    NUXT_ENV: env[process.env.NODE_ENV]
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
